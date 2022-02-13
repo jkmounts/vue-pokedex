@@ -1,14 +1,14 @@
 
 <template>
-  <h1>Pokedex</h1>
+  <h1>Pokedex - Updated</h1>
   <p>Filter Text : {{ filterText }}</p>
   <input type="text" v-model="filterText" />
   <ul>
     <PokedexCard
       v-for="(pokemon, index) in pokemonStore.filteredList"
       :key="`poke-${index}`"
-      :number="pokemon.entry_number"
-      :name="pokemon.pokemon_species.name"
+      :number="pokemon.id"
+      :name="pokemon.name"
     />
   </ul>
 </template>
@@ -24,31 +24,15 @@ const pokemonStore = reactive({
   list: [],
   filteredList: computed(() =>
     pokemonStore.list.filter(pokemon =>
-      pokemon.pokemon_species.name.includes(filterText.value)))
+      pokemon.name.includes(filterText.value)))
   })
 
 onMounted(async () => {
-  const pokeData = await fetch('https://pokeapi.co/api/v2/pokedex/2/')
-    .then(response => response.json());
+  const pokeData = await fetch('/.netlify/functions/pokedex').then(response => response.json());
 
-  pokemonStore.list = pokeData.pokemon_entries;
+  pokemonStore.list = pokeData;
+  console.log(pokeData);
 })
-
-
-// export default {
-//   data() {
-//     return {
-//       pokemonList: [],
-//     }
-//   },
-//   async mounted () {
-//     const pokeData = await fetch('https://pokeapi.co/api/v2/pokedex/2/')
-//     .then(response => response.json());
-//     console.log({ pokeData });
-
-//     this.pokemonList = pokeData.pokemon_entries
-//   },
-// }
 </script>
 
 

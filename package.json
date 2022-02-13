@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "node-fetch": "^2.6.7",
     "vue": "^3.2.25"
   },
   "devDependencies": {
