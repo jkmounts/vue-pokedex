@@ -5,6 +5,10 @@ exports.handler = async function(event, context) {
     response => response.json()
   );
 
+  const { start, end } = JSON.parse(event.body)
+
+  let finalResults = [];
+
   const pokeData = pokeApiData.pokemon_entries ? pokeApiData.pokemon_entries.map(pokemon => {
     const displayName = pokemon.pokemon_species.name[0].toUpperCase() + pokemon.pokemon_species.name.substring(1);
 
@@ -14,8 +18,10 @@ exports.handler = async function(event, context) {
     }
   }) : []
 
+  finalResults = pokeData.slice(start, end);
+
   return {
     statusCode: 200,
-    body: JSON.stringify(pokeData)
+    body: JSON.stringify(finalResults)
   }
 }
